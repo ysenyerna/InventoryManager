@@ -62,6 +62,72 @@ static class Database
 		}
 	}
 
+	// Attempts to update an item in the database
+	public static bool UpdateProduct(int id, string newName, string newCategory, int newQuantity, double newPrice, out string errorMsg)
+	{
+		errorMsg = "";
+
+		try
+		{
+			using var conn = new SQLiteConnection(ConnectionString);
+			conn.Open();
+		
+			string sql = "UPDATE Products " +
+			"SET Name = @n, Category = @c, Quantity = @q, Price = @p " +
+			"WHERE Id = @i";
+			using var cmd = new SQLiteCommand(sql, conn);
+			cmd.Parameters.AddWithValue("@i", id);
+			cmd.Parameters.AddWithValue("@n", newName);
+			cmd.Parameters.AddWithValue("@c", newCategory);
+			cmd.Parameters.AddWithValue("@q", newQuantity);
+			cmd.Parameters.AddWithValue("@p", newPrice);
+
+			int rows = cmd.ExecuteNonQuery();
+			if (rows == 0)
+			{
+				errorMsg = "No product found to update";
+				return false;
+			}
+
+			return true;
+		}
+		catch (Exception e)
+		{
+			errorMsg = e.Message;
+			return false;
+		}
+	}
+
+	// Attempts to remove an item from the database
+	public static bool DeleteProduct(int id, out string errorMsg)
+	{
+		errorMsg = "";
+
+		try
+		{
+			using var conn = new SQLiteConnection(ConnectionString);
+			conn.Open();
+		
+			string sql = "DELETE FROM Products WHERE Id = @i";
+			using var cmd = new SQLiteCommand(sql, conn);
+			cmd.Parameters.AddWithValue("@i", id);
+
+			int rows = cmd.ExecuteNonQuery();
+			if (rows == 0)
+			{
+				errorMsg = "No product found to delete";
+				return false;
+			}
+
+			return true;
+		}
+		catch (Exception e)
+		{
+			errorMsg = e.Message;
+			return false;
+		}
+	}
+
 	// Attempts to return a table with information from the database
 	public static DataTable? GetDataTable(out string errorMsg)
 	{

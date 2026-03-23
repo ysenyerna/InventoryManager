@@ -311,11 +311,16 @@ partial class MainForm
         // 
         dgvInventory.AllowUserToAddRows = false;
         dgvInventory.AllowUserToDeleteRows = false;
+        dgvInventory.AllowUserToResizeColumns = false;
+        dgvInventory.AllowUserToResizeRows = false;
+        dgvInventory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         dgvInventory.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
         dgvInventory.Dock = DockStyle.Fill;
         dgvInventory.Location = new Point(3, 19);
+        dgvInventory.MultiSelect = false;
         dgvInventory.Name = "dgvInventory";
         dgvInventory.ReadOnly = true;
+        dgvInventory.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         dgvInventory.Size = new Size(558, 242);
         dgvInventory.TabIndex = 0;
         // 
